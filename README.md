@@ -116,7 +116,7 @@ O modelo foi treinado e avaliado em um notebook Colab dedicado, com toda a pipel
 ## 👤 Autor
 
 Cristopher Aquino  
-PUC RIO – Segurança de Sistemas – 2025
+PUC RIO – Segurança de Sistemas – 2025.  
 [LinkedIn](https://www.linkedin.com/in/cristopher-aquino-4992b251/) | [Email](cristopheraquino20@gmail.com)
 
 ---
