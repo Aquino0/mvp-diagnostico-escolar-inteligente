@@ -10,22 +10,22 @@ const getList = async () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      data.alunos.forEach(item => insertList(item.name,             
-                                                item.age, 
-                                                item.gender,
-                                                item.ethnicity,
-                                                item.parental_education,
-                                                item.study_time_weekly,
-                                                item.absences,
-                                                item.tutoring,
-                                                item.parental_support,
-                                                item.extracurricular,
-                                                item.sports,
-                                                item.music,
-                                                item.volunteering,
-                                                item.outcome
-                                                
-                                              ))
+      data.alunos.forEach(item => insertList(
+        item.name,             
+        item.age, 
+        item.gender,
+        item.ethnicity,
+        item.parental_education,
+        item.study_time_weekly,
+        item.absences,
+        item.tutoring,
+        item.parental_support,
+        item.extracurricular,
+        item.sports,
+        item.music,
+        item.volunteering,
+        item.outcome
+      ));
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -44,12 +44,10 @@ getList()
   Função para colocar um item na lista do servidor via requisição POST
   --------------------------------------------------------------------------------------
 */
-const postItem = async (inputAluno, inputAge, inputGender,
-                        inputEthnicity, inputParental_education, inputStudy_time_weekly, 
-                        inputAbsences, inputTutoring, inputParental_support, inputExtracurricular, inputSports,
-                        inputMusic, inputVolunteering) => {
-                          
-            
+const postItem = (inputAluno, inputAge, inputGender,
+                  inputEthnicity, inputParental_education, inputStudy_time_weekly, 
+                  inputAbsences, inputTutoring, inputParental_support, inputExtracurricular, inputSports,
+                  inputMusic, inputVolunteering) => {
   const formData = new FormData();
   formData.append('name', inputAluno);
   formData.append('age', inputAge);
@@ -66,16 +64,12 @@ const postItem = async (inputAluno, inputAge, inputGender,
   formData.append('volunteering', inputVolunteering);
 
   let url = 'http://127.0.0.1:5000/aluno';
-  fetch(url, {
+  // RETORNA o fetch para poder usar .then depois!
+  return fetch(url, {
     method: 'post',
     body: formData
-  })
-    .then((response) => response.json())
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+  });
 }
-
 
 /*
   --------------------------------------------------------------------------------------
@@ -97,7 +91,6 @@ const insertDeleteButton = (aluno) => {
 */
 const removeElement = () => {
   let close = document.getElementsByClassName("close");
-  // var table = document.getElementById('myTable');
   let i;
   for (i = 0; i < close.length; i++) {
     close[i].onclick = function () {
@@ -119,7 +112,7 @@ const removeElement = () => {
 */
 const deleteItem = (item) => {
   console.log(item)
-  let url = 'http://127.0.0.1:5000/aluno?name='+item;
+  let url = 'http://127.0.0.1:5000/aluno?name=' + item;
   fetch(url, {
     method: 'delete'
   })
@@ -148,7 +141,6 @@ const newItem = async () => {
   let inputSports = document.getElementById("newSports").value;
   let inputMusic = document.getElementById("newMusic").value;
   let inputVolunteering = document.getElementById("newVolunteering").value;
-  
 
   // Verifique se o nome do produto já existe antes de adicionar
   const checkUrl = `http://127.0.0.1:5000/alunos?nome=${inputAluno}`;
@@ -161,18 +153,45 @@ const newItem = async () => {
         alert("O Aluno já está cadastrado.\nCadastre o Aluno com um nome diferente ou atualize o existente.");
       } else if (inputAluno === '') {
         alert("O nome do Aluno não pode ser vazio!");
-      } else if (isNaN(inputAge) || isNaN(inputGender) || isNaN(inputEthnicity) || isNaN(inputParental_education) || isNaN(inputStudy_time_weekly) || isNaN(inputAbsences) || isNaN(inputTutoring) || isNaN(inputParental_support) || isNaN(inputExtracurricular) || isNaN(inputMusic) || isNaN(inputVolunteering)) {
+      } else if (
+        isNaN(inputAge) || isNaN(inputGender) || isNaN(inputEthnicity) ||
+        isNaN(inputParental_education) || isNaN(inputStudy_time_weekly) ||
+        isNaN(inputAbsences) || isNaN(inputTutoring) || isNaN(inputParental_support) ||
+        isNaN(inputExtracurricular) || isNaN(inputSports) || isNaN(inputMusic) || isNaN(inputVolunteering)
+      ) {
         alert("Esse(s) campo(s) precisam ser números!");
       } else {
-        insertList(inputAluno, inputAge, inputGender,
-                  inputEthnicity, inputParental_education, inputStudy_time_weekly, 
-                  inputAbsences, inputTutoring, inputParental_support, inputExtracurricular, inputSports,
-                  inputMusic, inputVolunteering);
-        postItem(inputAluno, inputAge, inputGender,
-                  inputEthnicity, inputParental_education, inputStudy_time_weekly, 
-                  inputAbsences, inputTutoring, inputParental_support, inputExtracurricular, inputSports,
-                  inputMusic, inputVolunteering);
-        alert("Item adicionado!");
+        postItem(
+          inputAluno, inputAge, inputGender, inputEthnicity, inputParental_education, inputStudy_time_weekly,
+          inputAbsences, inputTutoring, inputParental_support, inputExtracurricular, inputSports,
+          inputMusic, inputVolunteering
+        )
+        .then(response => response.json())
+        .then(data => {
+          insertList(
+            data.name,
+            data.age,
+            data.gender,
+            data.ethnicity,
+            data.parental_education,
+            data.study_time_weekly,
+            data.absences,
+            data.tutoring,
+            data.parental_support,
+            data.extracurricular,
+            data.sports,
+            data.music,
+            data.volunteering,
+            data.outcome // <- Resultado da predição!
+          );
+          // Mostra "Aprovado" ou "Reprovado" no alerta, incluindo o nome do aluno
+          let resultado = (data.outcome == 1 || data.outcome == "1") ? "Aprovado" : "Reprovado";
+          alert("Aluno " + data.name + " - Resultado: " + resultado + "!");
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert("Erro ao adicionar aluno.");
+        });
       }
     })
     .catch((error) => {
@@ -180,25 +199,28 @@ const newItem = async () => {
     });
 }
 
-
 /*
   --------------------------------------------------------------------------------------
   Função para inserir items na lista apresentada
   --------------------------------------------------------------------------------------
 */
-const insertList = (name, age, gender,ethnicity, parental_education, study_time_weekly, absences, tutoring, parental_support, extracurricular,sports,music,volunteering,outcome) => {
-  var item = [name, age, gender,ethnicity, parental_education, study_time_weekly, absences, tutoring, parental_support, extracurricular,sports,music,volunteering,outcome];
+const insertList = (name, age, gender, ethnicity, parental_education, study_time_weekly, absences, tutoring, parental_support, extracurricular, sports, music, volunteering, outcome) => {
+  var item = [name, age, gender, ethnicity, parental_education, study_time_weekly, absences, tutoring, parental_support, extracurricular, sports, music, volunteering, outcome];
   var table = document.getElementById('myTable');
   var row = table.insertRow();
 
   for (var i = 0; i < item.length; i++) {
     var cell = row.insertCell(i);
-    cell.textContent = item[i];
+    // Se for a coluna "Resultado" (última), converte 0/1 para texto
+    if (i === item.length - 1) {
+      cell.textContent = (item[i] == 1 || item[i] == "1") ? "Aprovado" : "Reprovado";
+    } else {
+      cell.textContent = item[i];
+    }
   }
 
   var deleteCell = row.insertCell(-1);
   insertDeleteButton(deleteCell);
-
 
   document.getElementById("newInput").value = "";
   document.getElementById("newAge").value = "";
@@ -216,3 +238,4 @@ const insertList = (name, age, gender,ethnicity, parental_education, study_time_
 
   removeElement();
 }
+

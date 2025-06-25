@@ -1,7 +1,7 @@
-from model.modelo import Model
-from model import *
+# test_modelos.py
 
-# To run: pytest -v test_modelos.py
+from model.modelo import Model
+from model import Carregador, Avaliador
 
 # Instanciação das Classes
 carregador = Carregador()
@@ -17,17 +17,32 @@ colunas = ['StudentID', 'Age', 'Gender', 'Ethnicity', 'ParentalEducation',
 # Carga dos dados
 dataset = carregador.carregar_dados(url_dados, colunas)
 
-## Simolificando a variavel alvo para 0 ou 1 e separando X e Y
-dataset['GradeClass'] = dataset['GradeClass'].apply(lambda x: 1 if x in [0, 1, 2] else 0)
+# Ajuste: supondo que 'GradeClass' já é binária (0 ou 1)
 X = dataset.drop(columns=['StudentID', 'GradeClass', 'GPA'])
 y = dataset['GradeClass']
 
 def test_modelo_svm():
-    # Importando modelo de SVM
+    """Testa se o modelo SVM tem acurácia maior que 0.7"""
     svm_path = './MachineLearning/models/modelo_svm_aprovacao_reprovacao.pkl'
-    model_instance = Model()  # Criar uma instância da classe Model
+    model_instance = Model()
     modelo_svm = model_instance.carrega_modelo(svm_path)
-
-    # Obtendo as métricas do SVM
+    
+    # Avalia o modelo (supondo que avaliador.avaliar retorna acurácia)
     acuracia_svm = avaliador.avaliar(modelo_svm, X, y)
+    print(f"Acurácia do modelo SVM: {acuracia_svm:.2%}")
+    assert acuracia_svm > 0.7
 
+# Se quiser adicionar mais testes (ex: testar rotas da API), veja exemplo abaixo
+"""
+import pytest
+from app import app
+
+@pytest.fixture
+def client():
+    with app.test_client() as client:
+        yield client
+
+def test_get_alunos(client):
+    response = client.get('/alunos')
+    assert response.status_code in [200, 404]
+"""

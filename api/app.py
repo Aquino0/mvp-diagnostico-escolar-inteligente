@@ -23,10 +23,13 @@ model_path = os.path.join("MachineLearning", "models", "modelo_svm_aprovacao_rep
 modelo_svm = joblib.load(model_path)
 
 # Rota home
+from flask import render_template  # adicione no topo, se não estiver
+
 @app.get('/', tags=[home_tag])
 def home():
-    """Redireciona para /openapi."""
-    return redirect('/openapi')
+    """Renderiza o front-end do sistema."""
+    return render_template('index.html')
+
 
 # Rota para listar todos os alunos
 @app.get('/alunos', tags=[aluno_tag], responses={"200": ListaAlunosSchema, "404": ErrorSchema})

@@ -4,8 +4,7 @@ from model.modelo import Model
 class Avaliador:
 
     def avaliar(self, model, X_test, Y_test):
-        """ Faz uma predição e avalia o modelo. Poderia parametrizar o tipo de
-        avaliação, entre outros.
+        """ Faz uma predição e avalia o modelo.
         """
         model_instance = Model()  # Criar uma instância da classe Model
         predicoes = model_instance.preditor(model, X_test)  # Passando o modelo e os dados de teste
