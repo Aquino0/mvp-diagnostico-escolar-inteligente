@@ -3,7 +3,7 @@ from typing import List
 
 class AlunoSchema(BaseModel):
     """ Define como um novo aluno a ser inserido deve ser representado """
-    name: str = "Letícia"
+    name: str = "Matheus"
     age: int = 20
     gender: int = 1  # 0: Masculino, 1: Feminino
     ethnicity: int = 1
@@ -20,7 +20,7 @@ class AlunoSchema(BaseModel):
 class AlunoViewSchema(BaseModel):
     """ Define como um aluno será retornado """
     id: int
-    name: str = "Letícia"
+    name: str = "Matheus"
     age: int = 20
     gender: int = 1
     ethnicity: int = 1
@@ -37,7 +37,7 @@ class AlunoViewSchema(BaseModel):
 
 class AlunoBuscaSchema(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. """
-    name: str = "Letícia"
+    name: str = "Matheus"
 
 class ListaAlunosSchema(BaseModel):
     """ Define como uma lista de alunos será representada """
@@ -45,7 +45,7 @@ class ListaAlunosSchema(BaseModel):
 
 class AlunoDelSchema(BaseModel):
     """ Define como um aluno para deleção será representado """
-    name: str = "Letícia"
+    name: str = "Matheus"
 
 # Função para apresentar um aluno
 def apresenta_aluno(aluno):
