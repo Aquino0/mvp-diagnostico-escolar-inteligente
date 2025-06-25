@@ -129,7 +129,3 @@ PUC RIO – Segurança de Sistemas – 2025
 - [x] Frontend moderno e responsivo
 - [x] Testes PyTest funcionando
 - [x] README completo
-
----
-
-> **Este projeto é de uso acadêmico e demonstra as melhores práticas de integração entre IA, programação web.**
