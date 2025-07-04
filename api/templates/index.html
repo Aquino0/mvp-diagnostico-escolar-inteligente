@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Diagnóstico Escolar Inteligente</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/alunos.png') }}" type="image/png">
+</head>
+
+<body>
+    <!-- Cabeçalho de informações do sistema -->
+    <header>
+        <div class="title">
+            <h2>Bem-Vindo ao Diagnóstico Escolar Inteligente</h2>
+            <br>
+            <p class="subheadline">
+    Informe os dados do aluno abaixo e descubra rapidamente se ele tem perfil para <b>Aprovação</b> ou <b>Reprovação</b> escolar.<br>
+    O resultado aparecerá em destaque como <b>"Aprovado"</b> ou <b>"Reprovado"</b>.
+</p>
+        </div>
+        <div class="banner">
+            <img src="{{ url_for('static', filename='img/teacher.png') }}" alt="Banner">
+        </div>
+    </header>
+
+    <!-- Opções para adicionar um novo item -->
+    <section class="newItem">
+  <form id="alunoForm" class="form-grid-4">
+    <input type="text" id="newInput" placeholder="Nome" class="nome-span">
+    <input type="number" id="newAge" placeholder="Idade (15-18)" min="15" max="18">
+    <select id="newGender">
+      <option value="">Selecione o Gênero</option>
+      <option value="0">Masculino</option>
+      <option value="1">Feminino</option>
+    </select>
+    <select id="newEthnicity">
+      <option value="">Selecione a Etnia</option>
+      <option value="0">Caucasian</option>
+      <option value="1">Afro-americano</option>
+      <option value="2">Asiático</option>
+      <option value="3">Outro</option>
+    </select>
+    <select id="newParentalEducation">
+      <option value="">Educação dos Pais</option>
+      <option value="0">Nenhum</option>
+      <option value="1">Ensino Médio</option>
+      <option value="2">Alguma faculdade</option>
+      <option value="3">Bacharel</option>
+      <option value="4">Superior</option>
+    </select>
+    <input type="number" id="newStudyTimeWeekly" placeholder="Estudo Semanal (0-20)" min="0" max="20">
+    <input type="number" id="newAbsences" placeholder="Faltas (0-30)" min="0" max="30">
+    <select id="newTutoring">
+      <option value="">Status de Tutoria</option>
+      <option value="0">Não</option>
+      <option value="1">Sim</option>
+    </select>
+    <select id="newParentalSupport">
+      <option value="">Apoio dos Pais</option>
+      <option value="0">Nenhum</option>
+      <option value="1">Baixo</option>
+      <option value="2">Moderado</option>
+      <option value="3">Alto</option>
+      <option value="4">Muito alto</option>
+    </select>
+    <select id="newExtracurricular">
+      <option value="">Atividades Extracurriculares</option>
+      <option value="0">Não</option>
+      <option value="1">Sim</option>
+    </select>
+    <select id="newSports">
+      <option value="">Esportes</option>
+      <option value="0">Não</option>
+      <option value="1">Sim</option>
+    </select>
+    <select id="newMusic">
+      <option value="">Música</option>
+      <option value="0">Não</option>
+      <option value="1">Sim</option>
+    </select>
+    <select id="newVolunteering">
+      <option value="">Voluntariado</option>
+      <option value="0">Não</option>
+      <option value="1">Sim</option>
+    </select>
+    <span onclick="newItem()" class="addBtn">Prever</span>
+  </form>
+</section>
+
+    <!-- Tabela com itens existentes -->
+    <section class="items">
+        <table id="myTable">
+            <tr>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Gênero</th>
+                <th>Etnia</th>
+                <th>Educação dos Pais</th>
+                <th>Tempo de Estudo Semanal</th>
+                <th>Faltas</th>
+                <th>Apoio Escolar</th>
+                <th>Apoio dos Pais</th>
+                <th>Atividades Extracurriculares</th>
+                <th>Esportes</th>
+                <th>Música</th>
+                <th>Voluntariado</th>
+                <th>Resultado</th>
+                <th><img src="https://cdn-icons-png.flaticon.com/512/126/126468.png" width="15" height="15"></th>
+            </tr>
+        </table>
+    </section>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+
+</html>
